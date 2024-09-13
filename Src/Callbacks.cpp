@@ -6,6 +6,7 @@ void Callbacks::processInput(GLFWwindow *window)
         glfwSetWindowShouldClose(window, true);
 }
 
+// Whenever the window size changed (by OS or user resize) this callback function executes
 void Callbacks::framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     // make sure the viewport matches the new window dimensions; note that width and 

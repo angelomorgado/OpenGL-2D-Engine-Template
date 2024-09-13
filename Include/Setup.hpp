@@ -17,10 +17,10 @@ class Setup{
     public:
         static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
         static void glfw_setup();
-        static void window_setup(GLFWwindow* window);
+        static GLFWwindow* window_setup(const char* title, int width, int height);
         static void glad_setup();
-        static void printGPUinfo();
-        static GLFWwindow* setupWindow(const char* title);
+        static void printInfo();
+        static GLFWwindow* complete_setup(const char* title, int width, int height);
 };
 
 #endif

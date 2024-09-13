@@ -13,7 +13,7 @@ void Setup::glfw_setup() {
 	#endif
 }
 
-void Setup::window_setup(const char* title, int width, int height) {
+GLFWwindow* Setup::window_setup(const char* title, int width, int height) {
     GLFWwindow* window = glfwCreateWindow(width, height, title, NULL, NULL);
 
 	if (window == NULL)
@@ -27,6 +27,8 @@ void Setup::window_setup(const char* title, int width, int height) {
 	glfwSetFramebufferSizeCallback(window, Callbacks::framebuffer_size_callback);
 	// glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); // Enabled Cursor? 
 	//glfwSetCursorPosCallback(window, mouse_callback); // Call mouse callback
+
+    return window;
 }
 
 void Setup::glad_setup() {
@@ -34,17 +36,6 @@ void Setup::glad_setup() {
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		exit(-1);
 	}
-
-	// Z buffer (depth buffer)
-	glEnable(GL_DEPTH_TEST);
-}
-
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-void Setup::framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	// make sure the viewport matches the new window dimensions; note that width and 
-	// height will be significantly larger than specified on retina displays.
-	glViewport(0, 0, width, height);
 }
 
 // prints all the relevant info
@@ -61,8 +52,12 @@ void Setup::printInfo() {
 GLFWwindow* Setup::complete_setup(const char* title, int width, int height)
 {
     glfw_setup();
-    window_setup(title, width, height);
+    GLFWwindow* window = window_setup(title, width, height);
     glad_setup();
-	printGPUinfo();
+	printInfo();
+
+    // Z buffer (depth buffer)
+	glEnable(GL_DEPTH_TEST);
+
 	return window;
 }
