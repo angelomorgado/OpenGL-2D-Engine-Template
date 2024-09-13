@@ -1,17 +1,20 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <string>
+#include <vector>
 
 #include <Callbacks.hpp>
 #include <Setup.hpp>
-
-// settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+#include <INIReader.h>
 
 int main()
 {
-    GLFWwindow* window = Setup::complete_setup("LearnOpenGL", SCR_WIDTH, SCR_HEIGHT);
+    INIReader reader("Config/Config.ini");
+    int screen_width = reader.GetInteger("Window", "width", 800);
+    int screen_height = reader.GetInteger("Window", "height", 600);
+    
+    GLFWwindow* window = Setup::complete_setup("LearnOpenGL", screen_width, screen_height);
 
     // render loop
     // -----------
