@@ -13,8 +13,9 @@ This is a simple 2D engine written in C++ using OpenGL. It is intended to be use
 - [x] Scene support
 - [x] INI file support
 - [x] Input handling
+- [x] Shader support
+- [ ] 2D Object import/file from file/image
 - [ ] Sprite support
-- [ ] Shader support
 - [ ] Collision detection
 - [ ] Text rendering
 - [ ] Audio support
