@@ -1,42 +1,29 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <iostream>
-#include <string>
-#include <vector>
+#include <memory>
+#include "SceneManager.hpp"
+#include "Scenes/StandardScene.hpp"
 
-#include <Callbacks.hpp>
-#include <Setup.hpp>
-#include <INIReader.h>
+int main() {
+    SceneManager& sceneManager = SceneManager::getInstance();
 
-int main()
-{
-    INIReader reader("Config/Config.ini");
-    int screen_width = reader.GetInteger("Window", "width", 800);
-    int screen_height = reader.GetInteger("Window", "height", 600);
-    
-    GLFWwindow* window = Setup::complete_setup("LearnOpenGL", screen_width, screen_height);
+    // Register scenes
+    sceneManager.registerScene("StandardScene", []() { return std::make_shared<StandardScene>(); });
+    // sceneManager.registerScene("GameScene", []() { return std::make_shared<GameScene>(); });
 
-    // render loop
-    // -----------
-    while (!glfwWindowShouldClose(window))
-    {
-        // input
-        // -----
-        Callbacks::processInput(window);
+    // Load a scene by name
+    std::string sceneName = "StandardScene";
+    auto scene = sceneManager.loadScene(sceneName);
 
-        // render
-        // ------
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        // -------------------------------------------------------------------------------
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+    if (scene) {
+        scene->load();
+        while(!glfwWindowShouldClose(scene->getWindow())) {
+            scene->update();
+            scene->render();
+        }
+        scene->clean();
+    } else {
+        std::cout << "Scene not found!\n";
     }
 
-    // glfw: terminate, clearing all previously allocated GLFW resources.
-    // ------------------------------------------------------------------
-    glfwTerminate();
     return 0;
 }

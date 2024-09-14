@@ -13,6 +13,7 @@
                 "-I${workspaceFolder}/Dependencies/Include/imgui",
                 "-L${workspaceFolder}/Lib",
                 "${workspaceFolder}/Src/\\*.cpp",
+                "${workspaceFolder}/Src/Scenes/\\*.cpp",
                 "${workspaceFolder}/\\*.cpp",
                 "${workspaceFolder}/Dependencies/Src/\\*.c*",
                 "${workspaceFolder}/Dependencies/Src/imgui/\\*",
