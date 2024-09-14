@@ -20,21 +20,19 @@ void StandardScene::load() {
     // Load shaders
     standardShader.load("Shaders/standard.vert", "Shaders/standard.frag");
 
+    // Load objects on the GPU
+    // 1: Triangle
     // Generate and bind Vertex Array Object (VAO)
     glGenVertexArrays(1, &VAO);  // Generate VAO
     glBindVertexArray(VAO);      // Bind VAO
-
     // Generate and bind Vertex Buffer Object (VBO)
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
     // Copy our vertices array into the buffer for OpenGL to use
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
-
     // Set the vertex attributes pointers
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-
     // Unbind VAO and VBO for safety
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -43,6 +41,11 @@ void StandardScene::load() {
 void StandardScene::update() {
     // input
     Callbacks::processInput(window);
+
+    // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+    // -------------------------------------------------------------------------------
+    glfwSwapBuffers(window);
+    glfwPollEvents();
 }
 
 void StandardScene::render() {
@@ -52,11 +55,6 @@ void StandardScene::render() {
     standardShader.use();
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
-
-    // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-    // -------------------------------------------------------------------------------
-    glfwSwapBuffers(window);
-    glfwPollEvents();
 }
 
 int StandardScene::clean() {
