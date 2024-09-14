@@ -2,7 +2,7 @@
 #include "SceneManager.hpp"
 
 StandardScene::StandardScene() {
-    INIReader reader("Config/Config.ini");
+    INIReader reader("Config.ini");
     this->screen_width = reader.GetInteger("Window", "width", 800);
     this->screen_height = reader.GetInteger("Window", "height", 600);
     

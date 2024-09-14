@@ -12,7 +12,7 @@ int main() {
     // sceneManager.registerScene("GameScene", []() { return std::make_shared<GameScene>(); });
 
     // Load a scene by name
-    INIReader reader("Config/Config.ini");
+    INIReader reader("Config.ini");
     std::string sceneName = reader.Get("Scene", "active_scene", "StandardScene");
     // std::string sceneName = "StandardScene"; // Alternatively, you can hardcode the scene name
     std::cout << "Loading scene: " << sceneName << std::endl;
