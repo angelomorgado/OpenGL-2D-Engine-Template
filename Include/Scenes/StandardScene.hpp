@@ -26,10 +26,10 @@ private:
     std::string title;
     bool fullscreen;
     bool resizable;
-    bool cursor_enabled;
+    bool cursor_locked;
     
-    std::array<float, 12> vertices;
-    std::array<int, 6> indices;
+    std::array<float, 18> vertices;
+    std::array<int, 3> indices;
     unsigned int VBO, VAO, EBO;
     Shader standardShader;
 };

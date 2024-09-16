@@ -8,19 +8,19 @@ StandardScene::StandardScene() {
     screen_height = reader.GetInteger("Window", "height", 600);
     fullscreen = reader.GetBoolean("Window", "fullscreen", false);
     resizable = reader.GetBoolean("Window", "resizable", true);
-    cursor_enabled = reader.GetBoolean("Window", "cursor_locked", true);
+    cursor_locked = reader.GetBoolean("Window", "cursor_locked", true);
     
     window = Setup::complete_setup(title.c_str(), screen_width, screen_height, fullscreen, resizable, cursor_locked);
 
     vertices = {
-        0.5f,  0.5f, 0.0f,  // top right
-        0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left 
-    };
+        // positions         // colors
+        0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+        0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
+    };  
 
     indices = {  // note that we start from 0!
-        0, 1, 3,   // first triangle
+        0, 1, 2,   // first triangle
         // 1, 2, 3    // second triangle
     };  
 }
@@ -45,8 +45,12 @@ void StandardScene::load() {
     // Copy our vertices array into the buffer for OpenGL to use
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices.data(), GL_STATIC_DRAW); 
     // Set the vertex attributes pointers
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    //      Position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);  
+    //      Color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+    glEnableVertexAttribArray(1);  
     // Unbind VAO and VBO for safety
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
