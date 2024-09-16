@@ -14,4 +14,10 @@ void Callbacks::framebuffer_size_callback(GLFWwindow* window, int width, int hei
     glViewport(0, 0, width, height);
 }
 
+// This callback function handles the mouse input
+void Callbacks::mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    std::cout << "Mouse position: " << xpos << ", " << ypos << std::endl;
+}
+
 

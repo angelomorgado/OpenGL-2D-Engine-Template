@@ -2,6 +2,8 @@
 #define STANDARDSCENE_HPP
 
 #include <array>
+#include <string>
+#include <iostream>
 
 #include <Scene.hpp>
 #include <Callbacks.hpp>
@@ -21,9 +23,14 @@ private:
     GLFWwindow* window;
     int screen_width;
     int screen_height;
+    std::string title;
+    bool fullscreen;
+    bool resizable;
+    bool cursor_enabled;
     
-    std::array<float, 9> vertices;
-    unsigned int VBO, VAO;
+    std::array<float, 12> vertices;
+    std::array<int, 6> indices;
+    unsigned int VBO, VAO, EBO;
     Shader standardShader;
 };
 

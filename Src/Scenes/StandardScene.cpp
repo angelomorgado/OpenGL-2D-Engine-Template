@@ -3,17 +3,26 @@
 
 StandardScene::StandardScene() {
     INIReader reader("Config.ini");
+    title = reader.Get("Window", "title", "LearnOpenGL");
     screen_width = reader.GetInteger("Window", "width", 800);
     screen_height = reader.GetInteger("Window", "height", 600);
+    fullscreen = reader.GetBoolean("Window", "fullscreen", false);
+    resizable = reader.GetBoolean("Window", "resizable", true);
+    cursor_enabled = reader.GetBoolean("Window", "cursor_enabled", true);
     
-    window = Setup::complete_setup("LearnOpenGL", screen_width, screen_height);
+    window = Setup::complete_setup(title.c_str(), screen_width, screen_height, fullscreen, resizable, cursor_enabled);
 
     vertices = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f,  0.5f, 0.0f
-    }; 
+        0.5f,  0.5f, 0.0f,  // top right
+        0.5f, -0.5f, 0.0f,  // bottom right
+        -0.5f, -0.5f, 0.0f,  // bottom left
+        -0.5f,  0.5f, 0.0f   // top left 
+    };
 
+    indices = {  // note that we start from 0!
+        0, 1, 3,   // first triangle
+        // 1, 2, 3    // second triangle
+    };  
 }
 
 void StandardScene::load() {
@@ -30,9 +39,14 @@ void StandardScene::load() {
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     // Copy our vertices array into the buffer for OpenGL to use
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
+    // Generate and bind Element Buffer Object (EBO)
+    glGenBuffers(1, &EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    // Copy our vertices array into the buffer for OpenGL to use
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices.data(), GL_STATIC_DRAW); 
     // Set the vertex attributes pointers
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(0);  
     // Unbind VAO and VBO for safety
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -54,7 +68,9 @@ void StandardScene::render() {
 
     standardShader.use();
     glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    // glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
 }
 
 int StandardScene::clean() {
