@@ -26,6 +26,7 @@ On Windows:
 - [x] INI file support
 - [x] Input handling
 - [x] Shader support
+- [x] Makefile support for Linux
 - [ ] 2D Object import/file from file/image
 - [ ] Sprite support
 - [ ] Collision detection
